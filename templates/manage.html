@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Advisors</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            background:#0f172a; 
+            color:#f8fafc; 
+            padding:30px; 
+        }
+        h1, h2 { text-align: center; }
+        table { 
+            width: 80%; 
+            margin: 20px auto; 
+            border-collapse: collapse; 
+        }
+        th, td { 
+            border: 1px solid #f8fafc; 
+            padding: 10px; 
+            text-align: center; 
+        }
+        th { 
+            background: #1e293b; 
+        }
+        input, button { 
+            padding:8px; 
+            margin:5px; 
+            border-radius:6px; 
+            border:none; 
+        }
+        button { 
+            background:#38bdf8; 
+            color:white; 
+            cursor:pointer; 
+        }
+        button:hover { 
+            background:#0ea5e9; 
+        }
+        a { 
+            color:#38bdf8; 
+            text-decoration:none; 
+            margin-left:20px; 
+        }
+        .top-bar { 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <p>Logged in as: {{ user }} | <a href="/logout">Logout</a></p>
+        <h1>Manage Advisors</h1>
+    </div>
+
+    <h2>Add New Advisor</h2>
+    <form method="post" action="/manage/add" style="text-align:center;">
+        <input type="text" name="sebi_reg_no" placeholder="SEBI Reg No" required>
+        <input type="text" name="name" placeholder="Research Analyst Name" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <h2>Existing Advisors</h2>
+    <table>
+        <tr>
+            <th>SEBI Reg No</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        {% for advisor in advisors %}
+        <tr>
+            <td>{{ advisor.sebi_reg_no }}</td>
+            <td>{{ advisor.name }}</td>
+            <td>
+                <form method="post" action="/manage/delete" style="display:inline;">
+                    <input type="hidden" name="sebi_reg_no" value="{{ advisor.sebi_reg_no }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
